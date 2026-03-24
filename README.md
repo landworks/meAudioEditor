@@ -126,4 +126,4 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Author
 
-**Michael Kintner** — [LandWorks Services LLC](https://cnerd.us)
+**Michael Kintner** — [CNerd Inc](https://cnerd.us) / [LandWorks Services LLC](https://landworkspro.com)

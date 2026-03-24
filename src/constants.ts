@@ -1,4 +1,4 @@
-export const APP_VERSION = '1.16.1';
+export const APP_VERSION = '1.16.2';
 
 export const MIN_PIXELS_PER_SECOND = 1;
 export const MAX_PIXELS_PER_SECOND = 1476;

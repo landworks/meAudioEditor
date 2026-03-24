@@ -21,7 +21,7 @@ export function StatusBar() {
         <span className="hidden sm:inline">{project.sampleRate / 1000} kHz</span>
       </div>
       <div className="flex items-center gap-1.5 text-slate-600">
-        <span>Developed by <span className="text-slate-500">LandWorks Services LLC</span> by <span className="text-slate-500">Michael Kintner</span></span>
+        <span>Developed by <span className="text-slate-500">Michael Kintner</span> of <span className="text-slate-500">CNerd Inc</span> / <span className="text-slate-500">LandWorks Services LLC</span></span>
         <span className="text-slate-700">|</span>
         <span>v{APP_VERSION}</span>
       </div>
