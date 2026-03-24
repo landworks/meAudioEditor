@@ -69,6 +69,8 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 ```
 meAudioEditor/
+├── docs/
+│   └── PRD.md               # Product Requirements Document
 ├── public/                  # Static assets (favicon)
 ├── server/
 │   └── youtube-proxy.js     # Express proxy for YouTube audio via yt-dlp
@@ -93,26 +95,51 @@ meAudioEditor/
 └── package.json
 ```
 
-## Environment Variables
+## Deployment (Hostinger)
 
-Copy `.env.example` to `.env` and fill in your values. These are only used for deployment and are **not** required to run the app locally.
+The project is set up for easy deployment to **Hostinger** shared hosting via FTP. The `dist/` output is a fully static site — no server-side runtime required.
+
+### 1. Configure FTP credentials
+
+Copy `.env.example` to `.env` and fill in your Hostinger FTP details (these are **not** required for local development):
 
 ```bash
 cp .env.example .env
 ```
 
-See `.env.example` for the full list of variables.
+### 2. Build for production
 
-## Deployment
+```bash
+npm run build
+```
 
-The default Vite config uses `base: '/'`. If you deploy to a subdirectory, update `vite.config.ts`:
+### 3. Upload
+
+Upload the contents of `dist/` to your Hostinger `FTP_REMOTE_DIR` via FTP (FileZilla, Cyberduck, or Hostinger's File Manager).
+
+### 4. Required headers
+
+FFmpeg.wasm needs cross-origin isolation headers. Add an `.htaccess` file in the deployment directory:
+
+```apache
+<IfModule mod_headers.c>
+  Header set Cross-Origin-Opener-Policy "same-origin"
+  Header set Cross-Origin-Embedder-Policy "require-corp"
+</IfModule>
+```
+
+### Subdirectory deploys
+
+If hosting at a path other than the domain root, update `base` in `vite.config.ts`:
 
 ```ts
 export default defineConfig({
-  base: '/your/subdirectory/',
+  base: '/projects/meaudioeditor/',
   // ...
 })
 ```
+
+> **Note:** The `dist/` output is a standard static site and also works with Vercel, Netlify, Cloudflare Pages, GitHub Pages, or any host that supports custom response headers.
 
 ## Architecture
 

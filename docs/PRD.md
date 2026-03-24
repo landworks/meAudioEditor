@@ -1,6 +1,6 @@
 # meAudioEditor — Product Requirements Document
 
-**Version:** 1.16.4
+**Version:** 1.16.6
 **Author:** Michael Kintner — [CNerd Inc](https://cnerd.us) / [LandWorks Services LLC](https://landworkspro.com)
 **Last Updated:** 2026-03-24
 **Live URL:** [cnerd.us/projects/meaudioeditor](https://cnerd.us/projects/meaudioeditor/index.html)
@@ -408,13 +408,66 @@ Shortcuts are suppressed when focus is on input, textarea, select, or contentEdi
 npm run build    # TypeScript type-check + Vite production build → dist/
 ```
 
-### 7.2 Hosting
+The production build outputs to `dist/`. This is a fully static site (HTML + JS + CSS) with no server-side runtime required.
 
-- Static site deployed to Hostinger via FTP (credentials in `.env`).
-- `base: '/'` in Vite config (adjustable for subdirectory deploys).
-- COOP/COEP headers must be served by the hosting provider for FFmpeg.wasm to function.
+### 7.2 Hostinger Deployment
 
-### 7.3 Scripts
+The project is configured for easy deployment to **Hostinger** shared hosting via FTP. The `.env.example` file provides the template for FTP credentials.
+
+**Setup steps:**
+
+1. Copy `.env.example` to `.env` and fill in your Hostinger FTP credentials:
+
+```bash
+cp .env.example .env
+```
+
+```env
+FTP_HOST=your-ftp-host          # e.g. ftp.yourdomain.com
+FTP_USER=your-ftp-username
+FTP_PASS=your-ftp-password
+FTP_PORT=21
+FTP_REMOTE_DIR=/public_html/projects/meaudioeditor
+```
+
+2. Build the project:
+
+```bash
+npm run build
+```
+
+3. Upload the contents of `dist/` to the `FTP_REMOTE_DIR` path on your Hostinger account via FTP client (FileZilla, Cyberduck, or Hostinger's built-in File Manager).
+
+**Subdirectory deploys:** If hosting at a path other than the domain root, update `base` in `vite.config.ts` to match:
+
+```ts
+export default defineConfig({
+  base: '/projects/meaudioeditor/',
+  // ...
+})
+```
+
+**Required server headers:** FFmpeg.wasm requires `SharedArrayBuffer`, which browsers only enable under cross-origin isolation. The following HTTP headers must be served by the host:
+
+```
+Cross-Origin-Opener-Policy: same-origin
+Cross-Origin-Embedder-Policy: require-corp
+```
+
+On Hostinger, these can be added via an `.htaccess` file in the deployment directory:
+
+```apache
+<IfModule mod_headers.c>
+  Header set Cross-Origin-Opener-Policy "same-origin"
+  Header set Cross-Origin-Embedder-Policy "require-corp"
+</IfModule>
+```
+
+### 7.3 Alternative Hosting
+
+The `dist/` output is a standard static site and can be deployed to any static hosting provider (Vercel, Netlify, Cloudflare Pages, GitHub Pages, etc.) as long as the COOP/COEP headers above are configured.
+
+### 7.4 Scripts
 
 | Command | Description |
 |---------|-------------|
@@ -431,6 +484,8 @@ npm run build    # TypeScript type-check + Vite production build → dist/
 
 ```
 meAudioEditor/
+├── docs/
+│   └── PRD.md                       Product Requirements Document
 ├── public/                          Static assets
 │   └── favicon.svg
 ├── server/
@@ -504,7 +559,7 @@ The application version is tracked in three synchronized locations:
 
 The `.meaudio` binary file format has its own `FORMAT_VERSION` (currently `1`), independent of the app version.
 
-**Current Version:** 1.16.4
+**Current Version:** 1.16.6
 
 ---
 
