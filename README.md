@@ -2,6 +2,8 @@
 
 A simple, visual, browser-based multi-track audio editor. Import audio (or extract it from video), arrange clips on a timeline, and export to MP3 — all without leaving your browser.
 
+**[Try it live](https://cnerd.us/projects/meaudioeditor/index.html)**
+
 ## Features
 
 - **Multi-track timeline** — drag, trim, move, and snap clips across unlimited tracks
